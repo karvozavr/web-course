@@ -5,6 +5,6 @@ from cgi import parse_qs, escape
 
 
 def app(env, start_response):
-    params = parse_qs(env['QUERY_STRING'])
+    params = env['QUERY_STRING'].split('&')
     start_response('200 OK', [('Content-Type', 'text/plain')])
-    return ('{key}={val}'.format(key=k, val=v) for k, v in params.items())
+    return map(lambda x: (x.strip() + '\n').encode(), params)
